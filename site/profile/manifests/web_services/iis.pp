@@ -3,7 +3,47 @@ class profile::web_services::iis {
   $website_hash = hiera('profile::web_services::iis::website_hash',undef)
   $base_docroot = hiera('profile::web_services::iis::base_docroot')
 
-  include ::iis
+  case $::kernelmajversion {
+    '6.0','6.1': {
+      windowsfeature { 'IIS':
+        feature_name => [
+          'Web-Server',
+          'Web-WebServer',
+          'Web-Asp-Net',
+          'Web-ISAPI-Ext',
+          'Web-ISAPI-Filter',
+          'NET-Framework',
+          'WAS-NET-Environment',
+          'Web-Http-Redirect',
+          'Web-Filtering',
+          'Web-Mgmt-Console',
+          'Web-Mgmt-Tools'
+        ]
+      }
+    }
+    '6.2.','6.3': {
+      windowsfeature { 'IIS':
+        feature_name => [
+          'Web-Server',
+          'Web-WebServer',
+          'Web-Common-Http',
+          'Web-Asp',
+          'Web-Asp-Net45',
+          'Web-ISAPI-Ext',
+          'Web-ISAPI-Filter',
+          'Web-Http-Redirect',
+          'Web-Health',
+          'Web-Http-Logging',
+          'Web-Filtering',
+          'Web-Mgmt-Console',
+          'Web-Mgmt-Tools'
+          ],
+      }
+    }
+    default: {
+      fail("You must be running a 19th centery version of Windows")
+    }
+  }
 
   # disable default website
   iis::manage_site { 'Default Web Site':
