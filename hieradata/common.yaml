@@ -1,0 +1,121 @@
+---
+# Variables
+variables:
+  - &enable_firewall false
+  - &hiera_hierarchy
+    - "%{literal('%')}{clientcert}"
+    - "%{literal('%')}{tier}"
+    - "%{literal('%')}{pp_role}"
+    - "%{literal('%')}{data_centre}"
+    - common
+  - &hiera_backends
+    yaml:
+      datadir: "/etc/puppetlabs/code/environments/%{literal('%')}{environment}/hieradata"
+    json:
+      datadir: "/etc/puppetlabs/code/environments/%{literal('%')}{environment}/hieradata"
+  - &manage_r10k true
+  - &manage_heira true
+  - &r10k_sources
+    base:
+      remote: 'https://github.com/beergeek/japan_demo.git'
+      basedir: '/etc/puppetlabs/code/environments'
+# BASE
+profile::base::enable_firewall: *enable_firewall
+profile::base::wsus_server: 'http://wsus_server.local'
+profile::base::wsus_server_port: '8530'
+
+# Load Balancer
+profile::lb_services::enable_firewall: *enable_firewall
+profile::lb_services::listeners:
+  stats:
+    collect_exported: false
+    ipaddress: "%{::ipaddress_eth1}"
+    ports: '9090'
+    options:
+      mode: 'http'
+      stats: ['uri /', 'auth puppet:puppet']
+  http00:
+    collect_exported: true
+    ipaddress: "%{::ipaddress_eth1}"
+    ports: '80'
+    options:
+      mode: 'tcp'
+  https00:
+    collect_exported: true
+    ipaddress: "%{::ipaddress_eth1}"
+    ports: '443'
+    options:
+      mode: 'tcp'
+  puppet00:
+    collect_exported: true
+    ipaddress: "%{::ipaddress_eth1}"
+    ports: '8140'
+    options:
+      mode: 'tcp'
+  mco00:
+    collect_exported: true
+    ipaddress: "%{::ipaddress_eth1}"
+    ports: '61613'
+    options:
+      mode: 'tcp'
+      balance: 'source'
+
+
+# WEB_SERVICES
+profile::web_services::apache::enable_firewall: *enable_firewall
+profile::web_services::apache::website_hash:
+  'elmo.puppetlabs.vm':
+    docroot: 'elmo'
+    database_search: "Mysql_database['elmo']"
+    site_package: 'website_test'
+  'kermit.puppetlabs.vm':
+    docroot: 'kermit'
+    repo_source: 'git://github.com/beergeek/kermit.git'
+    repo_provider: git
+    database_search: "Mysql_database['kermit']"
+  'animal.puppetlabs.vm':
+    docroot: 'animal'
+    repo_source: 'git://github.com/beergeek/animal.git'
+    repo_provider: git
+  'rob.puppetlabs.vm':
+    docroot: 'rob'
+    repo_source: 'git://github.com/beergeek/rob.git'
+    database_search: "Mysql_database['rob']"
+    repo_provider: git
+profile::web_services::apache::website_defaults:
+  port: '80'
+  priority: '10'
+  docroot: '/var/www/${title}'
+  repo_provider: git
+profile::web_services::iis::enable_firewall: *enable_firewall
+profile::web_services::iis::base_docroot: "C:\\inetpub\\wwwroot"
+profile::web_services::iis::website_hash:
+  'elmo.puppetlabs.vm':
+    docroot: 'elmo'
+    database_search: "Mysql_database['elmo']"
+    site_package: 'website_test'
+  'kermit.puppetlabs.vm':
+    docroot: 'kermit'
+    repo_source: 'git://github.com/beergeek/kermit.git'
+    database_search: "Mysql_database['kermit']"
+  'animal.puppetlabs.vm':
+    docroot: 'animal'
+    repo_source: 'git://github.com/beergeek/animal.git'
+  'rob.puppetlabs.vm':
+    docroot: 'rob'
+    repo_source: 'git://github.com/beergeek/rob.git'
+    database_search: "Mysql_database['rob']"
+
+# DATABASE_SERVICES
+profile::database_services::mysql::enable_firewall: *enable_firewall
+profile::database_services::mysql::db_hash:
+  elmo: {}
+  kermit: {}
+profile::database_services::mysql::db_defaults:
+  user: 'vmware'
+  password: 'secret'
+profile::database_services::sqlerver::db_hash:
+  elmo:
+    password: 'jdfknvkjdfnk'
+  kermit:
+    password: 'jdfknvkjdfnk))##'
