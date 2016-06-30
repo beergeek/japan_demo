@@ -1,4 +1,6 @@
 ---
+variables:
+  - &enable_firewall false
 
 profile::web_services::iis::enable_firewall: *enable_firewall
 profile::web_services::iis::base_docroot: "C:\\inetpub\\wwwroot"
