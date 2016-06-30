@@ -76,6 +76,11 @@ class profile::web_services::iis {
       if $_bypass or !(empty($search_results)) {
         $_docroot = "${base_docroot}\\${website['docroot']}"
 
+        host { $site_name:
+          ensure => present,
+          ip     => $::fqdn,
+        }
+
         iis::manage_app_pool { $site_name:
           enable_32_bit           => true,
           managed_runtime_version => 'v4.0',

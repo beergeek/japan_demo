@@ -37,6 +37,11 @@ class profile::web_services::apache {
       if $_bypass or !(empty($search_results)) {
         $_docroot = "/var/www/${website['docroot']}"
 
+        host { $site_name:
+          ensure => present,
+          ip     => $::fqdn,
+        }
+
         apache::vhost { $site_name:
           docroot        => $_docroot,
           manage_docroot => $website['manage_docroot'],
