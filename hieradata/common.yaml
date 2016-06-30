@@ -24,6 +24,14 @@ profile::base::enable_firewall: *enable_firewall
 profile::base::wsus_server: 'http://wsus_server.local'
 profile::base::wsus_server_port: '8530'
 
+# TIME_LOCALE
+profile::time_locale::ntp_servers:
+  - 0.au.pool.ntp.org
+  - 1.au.pool.ntp.org
+  - 2.au.pool.ntp.org
+  - 3.au.pool.ntp.org
+profile::time_locale::timezone: 'UTC'
+
 # Load Balancer
 profile::lb_services::enable_firewall: *enable_firewall
 profile::lb_services::listeners:
