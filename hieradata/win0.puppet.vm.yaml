@@ -7,10 +7,10 @@ profile::web_services::iis::base_docroot: "C:\\inetpub\\wwwroot"
 profile::web_services::iis::website_hash:
   'elmo.puppetlabs.vm':
     docroot: 'elmo'
-    database_search: "Mysql_database['elmo']"
+    database_search: "Sqlserver::Database['elmo']"
   'kermit.puppetlabs.vm':
     docroot: 'kermit'
-    database_search: "Mysql_database['kermit']"
+    database_search: "Sqlserver::Database['kermit']"
   'animal.puppetlabs.vm':
     docroot: 'animal'
   'rob.puppetlabs.vm':
