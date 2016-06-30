@@ -1,7 +1,7 @@
 ---
 # Variables
 variables:
-  - &enable_firewall false
+  - &enable_firewall true
   - &hiera_hierarchy
     - "%{literal('%')}{clientcert}"
     - "%{literal('%')}{tier}"
@@ -73,6 +73,8 @@ profile::lb_services::listeners:
       mode: 'tcp'
       balance: 'source'
 
+# MOM
+profile::mom::manage_r10k: *manage_r10k
 
 # WEB_SERVICES
 profile::web_services::apache::enable_firewall: *enable_firewall
