@@ -43,7 +43,7 @@ class profile::base {
           direction    => 'in',
           action       => 'Allow',
           enabled      => 'yes',
-          protocol     => 'TCP,UDP',
+          protocol     => 'TCP',
           local_port   => '3389',
           remote_port  => 'any',
           display_name => 'Windows Remote Management HTTP-In',

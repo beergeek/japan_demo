@@ -10,7 +10,6 @@ profile::web_services::iis::website_hash:
     database_search: "Mysql_database['elmo']"
   'kermit.puppetlabs.vm':
     docroot: 'kermit'
-    repo_source: 'git://github.com/beergeek/kermit.git'
     database_search: "Mysql_database['kermit']"
   'animal.puppetlabs.vm':
     docroot: 'animal'
