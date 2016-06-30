@@ -37,9 +37,15 @@ class profile::web_services::apache {
       if $_bypass or !(empty($search_results)) {
         $_docroot = "/var/www/${website['docroot']}"
 
+        if $::os['family'] == 'RedHat' and $::os['release']['major'] == '7' {
+          $port = 'enp0s8'
+        } else {
+          $port = 'eth1'
+        }
+
         host { $site_name:
           ensure => present,
-          ip     => $::fqdn,
+          ip     => $::networking['interfaces'][$port]['ip'],
         }
 
         apache::vhost { $site_name:
