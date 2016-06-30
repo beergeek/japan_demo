@@ -2,6 +2,9 @@ class profile::base {
 
   $enable_firewall = hiera('profile::base::enable_firewall')
 
+  # monitoring
+  class { 'profile::monitoring': }
+
   case $::kernel {
     'linux': {
       Firewall {
@@ -54,9 +57,6 @@ class profile::base {
           ensure => 'stopped',
         }
       }
-
-      # monitoring
-      class { 'profile::monitoring': }
 
       file { ['C:/ProgramData/PuppetLabs/facter','C:/ProgramData/PuppetLabs/facter/facts.d']:
         ensure => directory,
