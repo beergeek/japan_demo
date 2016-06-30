@@ -8,7 +8,8 @@ class profile::monitor_server {
   include apache
   include epel
   package { ['nagios','nagios-plugins','nagios-plugins-all']:
-    ensure => present,
+    ensure  => present,
+    require => Class['epel'],
   }
 
   file { '/etc/nagios/conf.d':
