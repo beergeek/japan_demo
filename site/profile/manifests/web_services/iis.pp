@@ -5,7 +5,7 @@ class profile::web_services::iis {
 
   case $::kernelmajversion {
     '6.0','6.1': {
-      $feature_name => [
+      $feature_name = [
         'Web-Server',
         'Web-WebServer',
         'Web-Asp-Net',
@@ -23,7 +23,7 @@ class profile::web_services::iis {
       }
     }
     '6.2.','6.3': {
-      $feature_name => [
+      $feature_name = [
         'Web-Server',
         'Web-WebServer',
         'Web-Common-Http',
@@ -45,6 +45,14 @@ class profile::web_services::iis {
     default: {
       fail("You must be running a 19th centery version of Windows")
     }
+  }
+
+  Iis::Manage_site {
+    require => Windowsfeature[$feature_name],
+  }
+
+  Iis::Manage_app_pool {
+    require => Windowsfeature[$feature_name],
   }
 
   # disable default website
