@@ -1,6 +1,6 @@
 class profile::web_services::apache {
 
-  $website_hash 	    = hiera('profile::web_services::apache::website_hash')
+  $website_hash 	    = hiera('profile::web_services::apache::website_hash',undef)
   $website_defaults 	= hiera('profile::web_services::apache::website_defaults')
   $enable_firewall    = hiera('profile::web_services::apache::enable_firewall')
   $repo_provider      = hiera('profile::web_services::apache::repo_provider', undef)
@@ -27,30 +27,31 @@ class profile::web_services::apache {
     }
   }
 
-  $website_hash.each |String $site_name, Hash $website| {
-    $_docroot = "/var/www/${website['docroot']}"
+  if $website_hash {
+    $website_hash.each |String $site_name, Hash $website| {
+      $_docroot = "/var/www/${website['docroot']}"
 
-    apache::vhost { $site_name:
-      docroot        => $_docroot,
-      manage_docroot => $website['manage_docroot'],
-      port           => $website['port'],
-      priority       => $website['priority'],
-    }
+      apache::vhost { $site_name:
+        docroot        => $_docroot,
+        manage_docroot => $website['manage_docroot'],
+        port           => $website['port'],
+        priority       => $website['priority'],
+      }
 
-    if $website['repo_source'] {
-      vcsrepo { $site_name:
-        ensure   => present,
-        path     => $_docroot,
-        provider => $website['repo_provider'],
-        source   => $website['repo_source'],
-        require  => Apache::Vhost[$site_name],
-      }
-    } elsif $website['site_package'] {
-      package { $website['site_package']:
-        ensure => present,
-        tag    => 'custom',
-      }
+      if $website['repo_source'] {
+        vcsrepo { $site_name:
+          ensure   => present,
+          path     => $_docroot,
+          provider => $website['repo_provider'],
+          source   => $website['repo_source'],
+          require  => Apache::Vhost[$site_name],
+        }
+        } elsif $website['site_package'] {
+          package { $website['site_package']:
+            ensure => present,
+            tag    => 'custom',
+          }
+        }
     }
   }
-
 }

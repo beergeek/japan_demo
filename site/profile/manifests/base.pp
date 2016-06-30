@@ -26,6 +26,8 @@ class profile::base {
           ensure => stopped,
         }
       }
+
+      ensure_packages(['ruby'], {'ensure' => 'present'})
     }
     'windows': {
 
