@@ -31,7 +31,7 @@ class profile::web_services::iis {
         ip_address  => '*',
         host_header => $site_name,
         app_pool    => $site_name,
-        before      => File[$site_name],
+        before      => File[$_docroot],
       }
 
       acl { $_docroot:
@@ -52,7 +52,7 @@ class profile::web_services::iis {
         recurse => true,
         purge   => true,
         force   => true,
-        source  => "puppet:///web_sites/${site_name}",
+        source  => "puppet:///iis_files/${site_name}",
       }
     }
   }
