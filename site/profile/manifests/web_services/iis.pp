@@ -78,7 +78,7 @@ class profile::web_services::iis {
 
         host { $site_name:
           ensure => present,
-          ip     => $os['interfaces']['Ethernet 2']['ip'],
+          ip     => $::networking['interfaces']['Ethernet 2']['ip'],
         }
 
         iis::manage_app_pool { $site_name:
