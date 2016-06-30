@@ -2,14 +2,14 @@ class profile::base {
 
   $enable_firewall = hiera('profile::base::enable_firewall')
 
-  include ::profile::time_locale
-
   case $::kernel {
     'linux': {
       Firewall {
         before  => Class['profile::fw::post'],
         require => Class['profile::fw::pre'],
       }
+
+      include ::profile::time_locale
 
       if $enable_firewall {
         class { 'firewall':
