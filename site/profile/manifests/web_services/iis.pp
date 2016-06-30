@@ -19,7 +19,7 @@ class profile::web_services::iis {
   if $website_hash {
     $website_hash.each |String $site_name, Hash $website| {
       if $website['database_search'] {
-        $search_results = query_resources(false, $database_search)
+        $search_results = query_resources(false, $website['database_search'])
       } else {
         $_bypass = true
       }
