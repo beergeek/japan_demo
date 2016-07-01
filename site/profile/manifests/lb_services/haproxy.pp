@@ -2,6 +2,7 @@ class profile::lb_services::haproxy {
 
   $listeners        = hiera('profile::lb_services::haproxy::listeners',undef)
   $enable_firewall  = hiera('profile::lb_services::haproxy::enable_firewall')
+  $frontends        = hiera('profile::lb_services::haproxy::frontends',undef)
 
   Firewall {
     before  => Class['profile::fw::post'],
@@ -11,7 +12,7 @@ class profile::lb_services::haproxy {
   include ::haproxy
 
   if $listeners {
-    $listeners.each |$key,$value| {
+    $listeners.each |String $key,Hash $value| {
       haproxy::listen { $key:
         collect_exported => $value['collect_exported'],
         ipaddress        => $value['ipaddress'],
@@ -25,6 +26,14 @@ class profile::lb_services::haproxy {
           proto  => 'tcp',
           action => 'accept',
         }
+      }
+    }
+  }
+
+  if $frontends {
+    $frontends.each |String $frontend, Hash $values| {
+      haproxy::frontend { $frontend:
+        * => $values,;
       }
     }
   }
