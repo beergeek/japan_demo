@@ -12,16 +12,16 @@ class profile::lb_services::haproxy {
   include ::haproxy
 
   if $listeners {
-    $listeners.each |String $key,Hash $value| {
-      haproxy::listen { $key:
-        collect_exported => $value['collect_exported'],
-        ipaddress        => $value['ipaddress'],
-        ports            => $value['ports'],
-        options          => $value['options'],
+    $listeners.each |String $listener,Hash $listener_values| {
+      haproxy::listen { $listener:
+        collect_exported => $listener_values['collect_exported'],
+        ipaddress        => $listener_values['ipaddress'],
+        ports            => $listener_values['ports'],
+        options          => $lsitener_values['options'],
       }
 
       if $enable_firewall {
-        firewall { "100 ${key}":
+        firewall { "100 ${listener}":
           port   => [$value['ports']],
           proto  => 'tcp',
           action => 'accept',
@@ -31,9 +31,17 @@ class profile::lb_services::haproxy {
   }
 
   if $frontends {
-    $frontends.each |String $frontend, Hash $values| {
+    $frontends.each |String $frontend, Hash $frontend_values| {
       haproxy::frontend { $frontend:
-        * => $values,;
+        * => $frontend_values,;
+      }
+    }
+  }
+
+  if $backends {
+    $backends.each |String $backend, Hash backend_values| {
+      haproxy::backend { $backend:
+        * => $backend_values,
       }
     }
   }
