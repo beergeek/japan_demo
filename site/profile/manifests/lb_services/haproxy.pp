@@ -18,7 +18,7 @@ class profile::lb_services::haproxy {
         collect_exported => $listener_values['collect_exported'],
         ipaddress        => $listener_values['ipaddress'],
         ports            => $listener_values['ports'],
-        options          => $lsitener_values['options'],
+        options          => $listener_values['options'],
       }
 
       if $enable_firewall {
