@@ -26,21 +26,4 @@ class profile::web_services {
     require             => File["/etc/nagios/conf.d/${::fqdn}_service.cfg"],
   }
 
-  # Exported load balancer configuration if required
-  if $lb {
-    @@haproxy::balancermember { "http00-${::fqdn}":
-      listening_service => 'http00',
-      server_names      => $::fqdn,
-      ipaddresses       => $::ipaddress_eth1,
-      ports             => '80',
-      options           => 'check',
-    }
-    @@haproxy::balancermember { "https00-${::fqdn}":
-      listening_service => 'https00',
-      server_names      => $::fqdn,
-      ipaddresses       => $::ipaddress_eth1,
-      ports             => '443',
-      options           => 'check',
-    }
-  }
 }

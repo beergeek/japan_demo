@@ -88,7 +88,7 @@ class profile::web_services::iis {
 
         iis::manage_site { $site_name:
           site_path   => $_docroot,
-          port        => '80',
+          port        => $website['port'],
           ip_address  => '*',
           host_header => $site_name,
           app_pool    => $site_name,
@@ -114,6 +114,16 @@ class profile::web_services::iis {
           purge   => true,
           force   => true,
           source  => "puppet:///iis_files/${site_name}",
+        }
+        # Exported load balancer configuration if required
+        if $lb {
+          @@haproxy::balancermember { "${site_name}-${::fqdn}":
+            listening_service => $sitename,
+            server_names      => $::fqdn,
+            ipaddresses       => $::ipaddress_eth1,
+            ports             => $website['port'],
+            options           => 'check',
+          }
         }
       }
     }

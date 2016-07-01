@@ -69,6 +69,16 @@ class profile::web_services::apache {
             tag    => 'custom',
           }
         }
+        # Exported load balancer configuration if required
+        if $lb {
+          @@haproxy::balancermember { "${site_name}-${::fqdn}":
+            listening_service => $sitename,
+            server_names      => $::fqdn,
+            ipaddresses       => $::ipaddress_eth1,
+            ports             => $website['port'],
+            options           => 'check',
+          }
+        }
       }
     }
   }
