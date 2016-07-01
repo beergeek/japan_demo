@@ -77,13 +77,13 @@ profile::lb_services::haproxy::frontends:
         - 'animal if is_animal_puppet_vm'
 profile::lb_services::haproxy::backends:
   rob:
-    balance: 'roundrobin'
+    mode: 'http'
     collect_exported: true
     options:
       option:
         - 'forwardfor'
   animal:
-    balance: 'roundrobin'
+    mode: 'http'
     collect_exported: true
     options:
       option:
