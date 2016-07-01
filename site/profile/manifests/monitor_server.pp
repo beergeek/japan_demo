@@ -1,7 +1,18 @@
 class profile::monitor_server {
 
+  $enable_firewall = hiera('profile::monitor_server::enable_firewall',true)
+
   if $::osfamily != 'redhat' {
     fail("This class is only for EL family")
+  }
+
+  if $enable_firewall {
+    # add firewall rules
+    firewall { '100 allow http and https access':
+      port   => [80, 443],
+      proto  => tcp,
+      action => accept,
+    }
   }
 
   require profile::base
