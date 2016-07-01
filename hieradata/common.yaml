@@ -69,10 +69,12 @@ profile::lb_services::haproxy::frontends:
     mode: 'http'
     options:
       default_backend: 'rob'
-      acl: 'is_rob_puppet_vm hdr_dom(host) -i rob.puppet.vm'
-      acl: 'is_animal_puppet_vm hdr_dom(host) -i animal.puppet.vm'
-      use_backend: 'rob if is_rob_puppet_vm'
-      use_backend: 'animal if is_animal_puppet_vm'
+      acl:
+        - 'is_rob_puppet_vm hdr_dom(host) -i rob.puppet.vm'
+        - 'is_animal_puppet_vm hdr_dom(host) -i animal.puppet.vm'
+      use_backend:
+        - 'rob if is_rob_puppet_vm'
+        - 'animal if is_animal_puppet_vm'
 profile::lb_services::haproxy::backends:
   rob:
     balance: 'roundrobin'
