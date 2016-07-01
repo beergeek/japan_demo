@@ -1,5 +1,7 @@
 class profile::web_services {
 
+  $lb = hiera('profile::web_services::lb',true)
+
   case $::kernel {
     'linux': {
       include profile::web_services::apache
