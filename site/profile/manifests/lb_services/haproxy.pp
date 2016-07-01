@@ -3,6 +3,7 @@ class profile::lb_services::haproxy {
   $listeners        = hiera('profile::lb_services::haproxy::listeners',undef)
   $enable_firewall  = hiera('profile::lb_services::haproxy::enable_firewall')
   $frontends        = hiera('profile::lb_services::haproxy::frontends',undef)
+  $backends         = hiera('profile::lb_services::haproxy::backends',undef)
 
   Firewall {
     before  => Class['profile::fw::post'],
@@ -39,7 +40,7 @@ class profile::lb_services::haproxy {
   }
 
   if $backends {
-    $backends.each |String $backend, Hash backend_values| {
+    $backends.each |String $backend, Hash $backend_values| {
       haproxy::backend { $backend:
         * => $backend_values,
       }
