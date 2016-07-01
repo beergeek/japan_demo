@@ -73,16 +73,16 @@ profile::lb_services::haproxy::frontends:
         - 'is_rob_puppet_vm hdr_dom(host) -i rob.puppet.vm'
         - 'is_animal_puppet_vm hdr_dom(host) -i animal.puppet.vm'
       use_backend:
-        - 'rob if is_rob_puppet_vm'
-        - 'animal if is_animal_puppet_vm'
+        - 'rob.puppet.vm if is_rob_puppet_vm'
+        - 'animal.puppet.vm if is_animal_puppet_vm'
 profile::lb_services::haproxy::backends:
-  rob:
+  rob.puppet.vm:
     mode: 'http'
     collect_exported: true
     options:
       option:
         - 'forwardfor'
-  animal:
+  animal.puppet.vm:
     mode: 'http'
     collect_exported: true
     options:
