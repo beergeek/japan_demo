@@ -65,7 +65,7 @@ profile::lb_services::haproxy::listeners:
       balance: 'source'
 profile::lb_services::haproxy::frontends:
   http00:
-    port: '80'
+    ports: '80'
     mode: 'http'
     options:
       default_backend: 'rob'
