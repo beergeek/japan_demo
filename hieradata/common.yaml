@@ -78,8 +78,16 @@ profile::lb_services::haproxy::frontends:
 profile::lb_services::haproxy::backends:
   rob:
     balance: 'roundrobin'
-    option:
-      - ''
+    collect_exported: true
+    options:
+      option:
+        - 'forwardfor'
+  animal:
+    balance: 'roundrobin'
+    collect_exported: true
+    options:
+      option:
+        - 'forwardfor'
 
 # MOM
 profile::mom::manage_r10k: *manage_r10k
