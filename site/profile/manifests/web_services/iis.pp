@@ -2,6 +2,7 @@ class profile::web_services::iis {
 
   $website_hash = hiera('profile::web_services::iis::website_hash',undef)
   $base_docroot = hiera('profile::web_services::iis::base_docroot')
+  $lb           = hiera('profile::web_services::iis::lb',true)
 
   case $::kernelmajversion {
     '6.0','6.1': {
