@@ -73,7 +73,7 @@ class profile::web_services::apache {
         # Exported load balancer configuration if required
         if $lb {
           @@haproxy::balancermember { "${site_name}-${::fqdn}":
-            listening_service => $sitename,
+            listening_service => $site_name,
             server_names      => $::fqdn,
             ipaddresses       => $::ipaddress_eth1,
             ports             => $website['port'],
