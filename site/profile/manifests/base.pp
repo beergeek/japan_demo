@@ -41,6 +41,15 @@ class profile::base {
         class { 'windows_firewall':
           ensure => 'running',
         }
+        windows_firewall::exception { 'PING':
+          ensure       => present,
+          direction    => 'in',
+          action       => 'Allow',
+          enabled      => 'yes',
+          protocol     => 'ICMPv4',
+          display_name => 'PING',
+          description  => 'PING',
+        }
         windows_firewall::exception { 'WINRM':
           ensure       => present,
           direction    => 'in',
