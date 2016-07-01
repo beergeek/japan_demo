@@ -19,7 +19,7 @@ mod "puppetlabs/dsc", "0.8.1"
 mod "puppetlabs/firewall", "1.7.0"
 mod "puppetlabs/gcc", "0.3.0"
 mod "puppetlabs/git", "0.4.0"
-mod "puppetlabs/haproxy"
+#mod "puppetlabs/haproxy"
 mod "puppetlabs/inifile", "1.4.0"
 mod "puppetlabs/mysql", "3.4.0"
 mod "puppetlabs/ntp", "4.0.0"
@@ -53,3 +53,6 @@ mod 'ssh',
   :git => 'https://github.com/beergeek/puppet-ssh.git'
 mod 'make_noop',
   :git => 'https://github.com/beergeek/make_noop.git'
+mod 'haproxy',
+  ;git => 'https://github.com/puppetlabs/puppetlabs-haproxy.git'
+  :branch => 'master'
