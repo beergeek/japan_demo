@@ -16,7 +16,8 @@ class profile::monitor_server {
   }
 
   require profile::base
-  include apache
+  require ::apache
+  require ::apache::mod::php
   include epel
   package { ['nagios','nagios-plugins','nagios-plugins-all']:
     ensure  => present,
