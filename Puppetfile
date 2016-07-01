@@ -54,5 +54,5 @@ mod 'ssh',
 mod 'make_noop',
   :git => 'https://github.com/beergeek/make_noop.git'
 mod 'haproxy',
-  ;git => 'https://github.com/puppetlabs/puppetlabs-haproxy.git',
+  :git => 'https://github.com/puppetlabs/puppetlabs-haproxy.git',
   :branch => 'master'
