@@ -68,7 +68,7 @@ profile::lb_services::haproxy::frontends:
     ports: '80'
     mode: 'http'
     options:
-      default_backend: 'rob'
+      default_backend: 'rob.puppet.vm'
       acl:
         - 'is_rob_puppet_vm hdr_dom(host) -i rob.puppet.vm'
         - 'is_animal_puppet_vm hdr_dom(host) -i animal.puppet.vm'
