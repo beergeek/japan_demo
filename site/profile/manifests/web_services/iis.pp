@@ -82,6 +82,20 @@ class profile::web_services::iis {
           ip     => $::networking['interfaces']['Ethernet 2']['ip'],
         }
 
+        if !defined(Windows_firewall::Exception["HTTP - ${website['port']}"]) {
+          windows_firewall::exception { "HTTP - ${website['port']}":
+            ensure       => present,
+            direction    => 'in',
+            action       => 'Allow',
+            enabled      => 'yes',
+            protocol     => 'TCP',
+            local_port   => $website['port'],
+            remote_port  => 'any',
+            display_name => 'HTTP - inbound',
+            description  => 'Inbound rule for Interstroodle',
+          }
+        }
+
         iis::manage_app_pool { $site_name:
           enable_32_bit           => true,
           managed_runtime_version => 'v4.0',
