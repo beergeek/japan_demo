@@ -4,6 +4,7 @@ class profile::web_services::iis {
   $base_docroot = hiera('profile::web_services::iis::base_docroot')
   $lb           = hiera('profile::web_services::iis::lb',true)
 
+  # Get correct Features for IIS depending on Windows Version
   case $::kernelmajversion {
     '6.0','6.1': {
       $feature_name = [
@@ -19,9 +20,6 @@ class profile::web_services::iis {
         'Web-Mgmt-Console',
         'Web-Mgmt-Tools'
       ]
-      windowsfeature { $feature_name:
-        ensure => present,
-      }
     }
     '6.2.','6.3': {
       $feature_name = [
@@ -39,9 +37,6 @@ class profile::web_services::iis {
         'Web-Mgmt-Console',
         'Web-Mgmt-Tools'
         ]
-      windowsfeature { $feature_name:
-        ensure => present,
-      }
     }
     default: {
       fail("You must be running a 19th centery version of Windows")
@@ -54,6 +49,11 @@ class profile::web_services::iis {
 
   Iis::Manage_app_pool {
     require => Windowsfeature[$feature_name],
+  }
+
+  # Enable IIS
+  windowsfeature { $feature_name:
+    ensure => present,
   }
 
   # disable default website
