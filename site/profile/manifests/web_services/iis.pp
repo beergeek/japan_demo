@@ -135,7 +135,7 @@ class profile::web_services::iis {
           @@haproxy::balancermember { "${site_name}-${::fqdn}":
             listening_service => $site_name,
             server_names      => $::fqdn,
-            ipaddresses       => $::networking['Ehternet 2']['ip'],
+            ipaddresses       => $::networking['Ethernet 2']['ip'],
             ports             => $website['port'],
             options           => 'check',
           }
