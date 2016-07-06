@@ -83,7 +83,7 @@ profile::lb_services::haproxy::backends:
       option:
         - 'forwardfor'
         - 'httpclose'
-        - 'httpchk HEAD /robots.txt HTTP/1.0'
+        - 'httpchk GET /index.html\r\rHOST:rob.puppet.vm HTTP/1.0'
       balance: 'roundrobin'
   animal.puppet.vm:
     mode: 'http'
@@ -92,7 +92,7 @@ profile::lb_services::haproxy::backends:
       option:
         - 'forwardfor'
         - 'httpclose'
-        - 'httpchk HEAD /robots.txt HTTP/1.0'
+        - 'httpchk GET /index.html\r\nHOST:animal.puppet.vm HTTP/1.0'
       balance: 'roundrobin'
 
 # MOM
