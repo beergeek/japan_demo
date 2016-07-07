@@ -41,7 +41,7 @@ class profile::dns {
   @@host { $::fqdn:
     ensure        => present,
     host_aliases  => [$::hostname],
-    ip            => $::ipaddress_eth1,
+    ip            => $ip,
   }
 
   host { 'localhost':
