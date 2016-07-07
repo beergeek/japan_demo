@@ -59,14 +59,14 @@ class profile::base {
         windows_firewall::exception { 'RDP_TCP':
           ensure       => present,
           local_port   => '3389',
-          display_name => 'Windows Remote Desktop HTTP-In',
+          display_name => 'Windows Remote Desktop TCP',
           description  => 'Inbound rule for Windows Remote Desktop',
         }
         windows_firewall::exception { 'RDP_UDP':
           ensure       => present,
           protocol     => 'UDP',
           local_port   => '3389',
-          display_name => 'Windows Remote Desktop HTTP-In',
+          display_name => 'Windows Remote Desktop UDP',
           description  => 'Inbound rule for Windows Remote Desktop',
         }
         windows_firewall::exception { 'WINRM':
