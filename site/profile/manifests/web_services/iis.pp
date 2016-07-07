@@ -1,5 +1,6 @@
 class profile::web_services::iis {
 
+  # Lookup website information and load balancer
   $website_hash = hiera('profile::web_services::iis::website_hash',undef)
   $base_docroot = hiera('profile::web_services::iis::base_docroot')
   $lb           = hiera('profile::web_services::iis::lb',true)

@@ -41,25 +41,39 @@ class profile::base {
         class { 'windows_firewall':
           ensure => 'running',
         }
-        windows_firewall::exception { 'PING':
-          ensure       => present,
-          direction    => 'in',
-          action       => 'Allow',
-          enabled      => 'yes',
-          protocol     => 'ICMPv4',
-          display_name => 'PING',
-          description  => 'PING',
-        }
-        windows_firewall::exception { 'WINRM':
-          ensure       => present,
+
+        Windows_firewall::Exception {
           direction    => 'in',
           action       => 'Allow',
           enabled      => 'yes',
           protocol     => 'TCP',
-          local_port   => '3389',
           remote_port  => 'any',
-          display_name => 'Windows Remote Management HTTP-In',
+        }
+
+        windows_firewall::exception { 'PING':
+          ensure       => present,
+          protocol     => 'ICMPv4',
+          display_name => 'PING',
+          description  => 'PING',
+        }
+        windows_firewall::exception { 'RDP_TCP':
+          ensure       => present,
+          local_port   => '3389',
+          display_name => 'Windows Remote Desktop HTTP-In',
           description  => 'Inbound rule for Windows Remote Desktop',
+        }
+        windows_firewall::exception { 'RDP_UDP':
+          ensure       => present,
+          protocol     => 'UDP',
+          local_port   => '3389',
+          display_name => 'Windows Remote Desktop HTTP-In',
+          description  => 'Inbound rule for Windows Remote Desktop',
+        }
+        windows_firewall::exception { 'WINRM':
+          ensure       => present,
+          local_port   => '5985',
+          display_name => 'Windows Remote Management HTTP-In',
+          description  => 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]',
         }
       } else {
         class { 'windows_firewall':
