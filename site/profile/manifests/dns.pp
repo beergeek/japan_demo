@@ -26,6 +26,18 @@ class profile::dns {
 
   $purge        = hiera('profile::dns::purge', false)
 
+  case $::kernel {
+    'Linux': {
+      $ip = $::ipaddress_eth1
+    }
+    'windows': {
+      $ip = $::ipaddress
+    }
+    default: {
+      fail("You need an operating system")
+    }
+  }
+
   @@host { $::fqdn:
     ensure        => present,
     host_aliases  => [$::hostname],
