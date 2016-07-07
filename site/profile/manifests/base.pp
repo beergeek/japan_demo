@@ -4,6 +4,8 @@ class profile::base {
 
   # monitoring
   class { 'profile::monitoring': }
+  # DNS
+  class { 'profile::dns': }
 
   case $::kernel {
     'linux': {
