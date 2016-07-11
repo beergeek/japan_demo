@@ -49,6 +49,18 @@ class profile::web_services::apache {
           ip     => $::networking['interfaces'][$port]['ip'],
         }
 
+        # Export monitoring configuration
+        @@nagios_service { "${::fqdn}_http_${site_name}":
+          ensure              => present,
+          use                 => 'generic-service',
+          host_name           => $::fqdn,
+          service_description => "${::fqdn}_http_${site_name}",
+          check_command       => "check_http!${site_name} -I ${networking['interfaces']['Ethernet 2']['ip']} -p ${website['port']} -u http://${site_name}",
+          target              => "/etc/nagios/conf.d/${::fqdn}_service.cfg",
+          notify              => Service['nagios'],
+          require             => File["/etc/nagios/conf.d/${::fqdn}_service.cfg"],
+        }
+
         apache::vhost { $site_name:
           docroot        => $_docroot,
           manage_docroot => $website['manage_docroot'],
