@@ -83,8 +83,9 @@ profile::lb_services::haproxy::backends:
       option:
         - 'forwardfor'
         - 'httpclose'
-        - 'httpchk GET /index.html\r\rHOST:rob.puppet.vm HTTP/1.0'
+        - 'httpchk GET /index.html HTTP\1.1\r\rHOST:\ rob.puppet.vm'
       balance: 'roundrobin'
+      reqirep: '^Host:   Host:\ rob.puppet.vm'
   animal.puppet.vm:
     mode: 'http'
     collect_exported: true
@@ -92,8 +93,9 @@ profile::lb_services::haproxy::backends:
       option:
         - 'forwardfor'
         - 'httpclose'
-        - 'httpchk GET /index.html\r\nHOST:animal.puppet.vm HTTP/1.0'
+        - 'httpchk GET /index.html HTTP/1.1\r\nHOST:\ animal.puppet.vm'
       balance: 'roundrobin'
+      reqirep: '^Host:   Host:\ animal.puppet.vm'
 
 # MOM
 profile::mom::manage_r10k: *manage_r10k
