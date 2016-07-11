@@ -74,7 +74,7 @@ profile::lb_services::haproxy::backends:
       option:
         - 'forwardfor'
         - 'httpclose'
-        - 'httpchk GET /index.html HTTP\1.1\r\rHOST:\ rob.puppet.vm'
+        - 'httpchk GET /index.html HTTP/1.1\r\nHOST:\ rob.puppet.vm'
       balance: 'roundrobin'
       reqirep: '^Host:   Host:\ rob.puppet.vm'
   animal.puppet.vm:
