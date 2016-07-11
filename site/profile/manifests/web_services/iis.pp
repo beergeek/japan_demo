@@ -97,6 +97,18 @@ class profile::web_services::iis {
           }
         }
 
+        # Export monitoring configuration
+        @@nagios_service { "${::fqdn}_http_${site_name}":
+          ensure              => present,
+          use                 => 'generic-service',
+          host_name           => $::fqdn,
+          service_description => "HTTP",
+          check_command       => 'check_http -p ${website['port']} -url ${site_name}',
+          target              => "/etc/nagios/conf.d/${::fqdn}_service.cfg",
+          notify              => Service['nagios'],
+          require             => File["/etc/nagios/conf.d/${::fqdn}_service.cfg"],
+        }
+
         iis::manage_app_pool { $site_name:
           enable_32_bit           => true,
           managed_runtime_version => 'v4.0',
