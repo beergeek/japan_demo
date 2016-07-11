@@ -103,7 +103,7 @@ class profile::web_services::iis {
           use                 => 'generic-service',
           host_name           => $::fqdn,
           service_description => "HTTP",
-          check_command       => 'check_http -p ${website['port']} -url ${site_name}',
+          check_command       => "check_http -p ${website['port']} -url ${site_name}",
           target              => "/etc/nagios/conf.d/${::fqdn}_service.cfg",
           notify              => Service['nagios'],
           require             => File["/etc/nagios/conf.d/${::fqdn}_service.cfg"],
