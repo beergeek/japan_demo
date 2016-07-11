@@ -36,6 +36,14 @@ class profile::lb_services::haproxy {
       haproxy::frontend { $frontend:
         * => $frontend_values,;
       }
+
+      if $enable_firewall {
+        firewall { "100 ${frontend}":
+          port   => [$listener_values['ports']],
+          proto  => 'tcp',
+          action => 'accept',
+        }
+      }
     }
   }
 
