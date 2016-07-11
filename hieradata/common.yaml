@@ -50,19 +50,6 @@ profile::lb_services::haproxy::listeners:
     options:
       mode: 'http'
       stats: ['uri /', 'auth puppet:puppet']
-  puppet00:
-    collect_exported: true
-    ipaddress: "%{::ipaddress_eth1}"
-    ports: '8140'
-    options:
-      mode: 'tcp'
-  mco00:
-    collect_exported: true
-    ipaddress: "%{::ipaddress_eth1}"
-    ports: '61613'
-    options:
-      mode: 'tcp'
-      balance: 'source'
 profile::lb_services::haproxy::frontends:
   http00:
     ports: '80'
