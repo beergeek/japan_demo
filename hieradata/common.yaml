@@ -56,6 +56,7 @@ profile::lb_services::haproxy::frontends:
     mode: 'http'
     options:
       default_backend: 'rob.puppet.vm'
+      bind: ':80'
       option:
         - httplog
       log: global
