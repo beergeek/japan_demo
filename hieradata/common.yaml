@@ -19,6 +19,10 @@ variables:
     base:
       remote: 'https://github.com/beergeek/japan_demo.git'
       basedir: '/etc/puppetlabs/code/environments'
+
+# Don't ask
+puppet_enterprise::master::puppetserver::jruby_environment_class_cache_enabled: false
+
 # BASE
 profile::base::enable_firewall: *enable_firewall
 profile::base::wsus_server: 'http://wsus_server.local'
